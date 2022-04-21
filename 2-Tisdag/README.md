@@ -10,3 +10,7 @@ en redux store med redux thunk som middleware. Du ska hantera datan
 från getSauceFromUrl till redux tillsammans med thunk för att invänta datan asynkront.
 
 Värdet ska läggas in i ```#sauce``` elementet.
+
+På den här utmaningen kommer du att fylla i luckorna för att få en komplett fungerande app i koden
+
+TIPS: Ctrl + f och sök "FILL THE GAPS" för att se vad som behövs läggas till.
