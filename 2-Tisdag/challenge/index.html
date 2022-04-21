@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux Måndag</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-thunk/2.4.1/redux-thunk.min.js"></script>
+  </head>
+  <body>
+    <div>
+        <button onclick="store.dispatch(getSauce())">Get secret sauce 🤫</button>
+        I dare you, click the button. The sauce is: <span id="sauce">...</span>
+    </div>
+    <script>
+    // Funktionen som hämtar data från vår endpoint
+    const getSauceFromUrl = async () => {
+        return fetch('https://6257f4fa0c918296a48e7812.mockapi.io/secret_sauce').then(response => response.json()).then(data => data.sauce)
+    }
+
+    let { createStore, applyMiddleware } = Redux;
+    let thunk = ReduxThunk;
+
+    // Vår reducer där vi definerar olika utfall (endast 1 i detta fall) och vad som ska hända hädanefter.
+     const sauceReducer = (state = '...', action) => {
+       switch (action.type) {
+         case /* FILL THE GAP: action type */:
+           return /* FILL THE GAP: nya värdet i vår store */
+         default:
+           return state
+       }
+    }
+
+    // Vi skapar våran store och skickar med vår reducer, vi lägger även till thunk som middleware
+    let store = createStore(/* FILL THE GAP: reducer, applyMiddleware med thunk */)
+    
+    // Vi sparar #sauce elementet i en variabel för att senare kunna använda den
+    let sauceEl = document.getElementById('sauce')
+
+    // Vi definerar en funktion som ska köras varje gång store uppdateras
+    function render() {
+        sauceEl.innerHTML = store.getState()
+    }
+
+    // Vår render funktion körs vid start av hemsidan
+    render()
+
+    // Vi kopplar vår render funktion så att den lyssnar på ändringar i vår store och kör render funktionen
+    store.subscribe(render)
+
+    // Vår redux action som ber oss hämta data från vår endpoint
+    const getSauce = () => {
+        return (dispatch) => {
+            getSauceFromUrl().then(sauce => {
+                dispatch(/* FILL THE GAP: action type + payload */})
+            })
+        }
+    };
+    </script>
+  </body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux Måndag</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+  </head>
+  <body>
+    <div>
+        Poäng: <span id="value">0</span>
+        <button id="increment" onclick="increment()">+</button>
+        <button id="decrement" onclick="decrement()">-</button>
+    </div>
+    <script>
+      // Vi skapar en counter reducer som tar emot en state och en action och returnerar en ny state.
+      // State är en variabel som representerar vår poäng.
+      // Action är en variabel som representerar vad som ska göras.
+      function counterReducer(state = 0, action) {
+        // Ett switch statement som kollar vilken action som skickats in och returnerar en ny state.
+        switch (action.type) {
+          case 'INCREMENT':
+            // Om vår action type är increment så returnerar vi en ny state som är + 1 från det ursprungliga state.
+            return state + 1
+          case 'DECREMENT':
+            // Om vår action type är decrement så returnerar vi en ny state som är - 1 från det ursprungliga state.
+            return state - 1
+          default:
+            // Default i en switch statement kan anses som "else" i en if-statement.
+            // Om vi på något sätt har skickat in en type som inte är increment eller decrement kommer vi inte att manipulera våran state, vi skickar den befintliga utan ändringar.
+            // Man kan även se default i en switch state som ett "skyddsnät"
+            return state
+        }
+      }
+
+      let { createStore } = Redux;
+
+      // Vi skapar en store som använder redux & vi skickar in en reducer som ska användas
+      let store = createStore(counterReducer)
+
+      // Vi sparar variabeln valueEl som en referens till vår poäng element.
+      // Vi behöver spara den här variabeln för att kunna ändra vår poäng i vår html.
+      let valueEl = document.getElementById('value')
+
+      // En render funktion som kommer att ta senaste state value från redux och skriva ut den i vår valueEl element.
+      function render() {
+        valueEl.innerHTML = store.getState().toString()
+      }
+
+      // Vi triggar manuellt igång en render funktion för att få vår poäng att uppdateras när sidan laddas.
+      render()
+
+      // Varje gång vår store uppdateras kommer vi att köra vår render funktion igen för att skriva ut nya värdet.
+      store.subscribe(render)
+
+      // Dessa är våra "actions" som hänvisas i våra buttons i html koden.
+      // Vi använder store.dispatch för att skicka in en action som ska göras.
+      const increment = () => store.dispatch({type: 'INCREMENT'})
+      const decrement = () => store.dispatch({type: 'DECREMENT'})
+    </script>
+  </body>
+</html>

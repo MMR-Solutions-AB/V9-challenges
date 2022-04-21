@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux Måndag</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux-thunk/2.4.1/redux-thunk.min.js"></script>
+  </head>
+  <body>
+    <input id="inputField" type="text" />
+    <button onclick="addTask()">Add Task</button>
+    <button onclick="clearTasks()">Clear</button>
+    <br>
+    <span id="tasks">
+        You have no tasks for today.
+    </span>
+    <script>
+        let { createStore } = Redux;
+
+        // Vår task reducer som tar hand om våra tasks utifrån respektive action type och bearbetar datan
+        const taskReducer = (state = [], action) => {
+            switch (action.type) {
+                case 'ADD_TASK':
+                    // Lägg till task i state
+                    return [...state, action.payload];
+                case 'CLEAR_TASKS':
+                    // Kommer att returnera en tom array, dvs en tom lista
+                    return [];
+                default:
+                    return state;
+            }
+        };
+
+        // Vi skapar en vanlig redux store med taskReducer
+        let store = createStore(taskReducer)
+
+        // Funktionen kallar action med type ADD_TASK och payload värdet från inputField
+        const addTask = () => {
+            // Få inputFields värde
+            const inputField = document.getElementById('inputField');
+            const task = inputField.value;
+
+            // Kalla action med type ADD_TASK och payload värdet från inputField
+            store.dispatch({
+                type: 'ADD_TASK',
+                payload: task
+            });
+
+            // Rensa inputfields värde  
+            inputField.value = '';
+        };
+
+        // Vår redux action med type CLEAR_TASKS
+        const clearTasks = () => {
+            store.dispatch({
+                type: 'CLEAR_TASKS'
+            });
+        };
+
+        // Vår funktion som har hand om att rendera ut våra tasks i en lista med värden från vår store
+        const renderTasks = () => {
+            // Få tasks från vår store
+            const tasks = store.getState();
+
+            // Få tasks elementet där vi renderar ut listan
+            const tasksEl = document.getElementById('tasks');
+
+            // Om tasks arrayn är tom, så skriv ut "You have no tasks for today."
+            if (tasks.length === 0) {
+                tasksEl.innerHTML = 'You have no tasks for today.';
+            } else {
+                // Annars skriv ut alla tasks i listan
+                // Rensa tasks elementet för att förbereda den för ny rendering
+                tasksEl.innerHTML = '';
+
+                // Loopar igenom alla tasks
+                tasks.forEach(task => {
+                    // Skapa en li element
+                    const li = document.createElement('li');
+
+                    // Lägg till värdet från task i li elementet i respektive loop
+                    li.innerHTML = task;
+
+                    // Lägg till det nyskapade li elementet i tasks elementet refererat på rad 65
+                    tasksEl.appendChild(li);
+                });
+            }
+        };
+
+        // Kalla på renderTasks funktionen varje gång vår store uppdateras, vi "subscribar" till ändringar.
+        store.subscribe(renderTasks);
+    </script>
+  </body>
+</html>

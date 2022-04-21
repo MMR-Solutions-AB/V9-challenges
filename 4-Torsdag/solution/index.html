@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.2.0/redux.min.js"
+      integrity="sha512-1/8Tj23BRrWnKZXeBruk6wTnsMJbi/lJsk9bsRgVwb6j5q39n0A00gFjbCTaDo5l5XrPVv4DZXftrJExhRF/Ug=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Document</title>
+  </head>
+  <body>
+    <div id="songs"></div>
+    <div id="currentlyPlaying">No song is playing yet :(</div>
+  </body>
+  <script>
+    let { createStore } = Redux;
+
+    // Vi impoterar hård kodat songs i en array.
+    const songs = [
+      {
+        title: 'No Scrubs',
+        duration: '4:05',
+        artist: 'TLC',
+      },
+      {
+        title: 'Macarena',
+        duration: '2:30',
+        artist: 'Los Del Rio',
+      },
+      {
+        title: 'All Star',
+        duration: '3:15',
+        artist: 'Smash Mouth',
+      },
+      {
+        title: 'I Want it That Way',
+        duration: '1:45',
+        artist: 'Backstreet Boys',
+      },
+    ];
+
+    // Våran trackreducer som är ansvarig för att ändra vår store beroende på olika utfall
+    const trackReducer = (state = {}, action) => {
+      switch (action.type) {
+        case 'PLAY_TRACK':
+          return action.payload;
+        default:
+          return state;
+      }
+    };
+
+    // Vi skapar våran store med trackReducer som vår reducer
+    let store = createStore(trackReducer);
+
+    // Vår funktion som skickar en action till vår store tillsammans med en låt som payload
+    const playTrack = (track) => {
+      store.dispatch({
+        type: 'PLAY_TRACK',
+        payload: track,
+      });
+    };
+
+    // Denna funktion är ansvarig för att rendera ut alla låt-buttons i vår kod från arrayn songs
+    songs.forEach((song) => {
+      const songEl = document.createElement('button');
+      songEl.innerHTML = `${song.artist} - ${song.title}`;
+      document.getElementById('songs').appendChild(songEl);
+      songEl.onclick = () => {
+        playTrack(song);
+      };
+    });
+
+    // Vår subscribe funktion som körs när vår store ändras, kommer att uppdatera vår currentlyPlaying div
+    store.subscribe(() => {
+      const currentTrack = store.getState();
+      const currentlyPlaying = document.getElementById('currentlyPlaying');
+      currentlyPlaying.innerHTML = `${currentTrack.artist} - ${currentTrack.title}`;
+    });
+  </script>
+</html>

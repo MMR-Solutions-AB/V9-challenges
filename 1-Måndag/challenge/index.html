@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Redux Måndag</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/redux/4.1.2/redux.min.js"></script>
+  </head>
+  <body>
+    <div>
+        Poäng: <span id="value">0</span>
+        <button id="increment" onclick="increment()">+</button>
+        <button id="decrement" onclick="decrement()">-</button>
+    </div>
+    <script>
+      // Vår counter reducer som bestämmer vad som ska hända i vår redux store vid olika scenarion beroende på vilken action.type som har dispatchat
+      function counterReducer(state = 0, action) {
+        switch (action.type) {
+          case /* FILL THE GAP action type för increase number*/:
+            return /* FILL THE GAP: ett nytt värde */
+          case /* FILL THE GAP action type för decrease number */:
+            return /* FILL THE GAP: ett nytt värde */
+          default:
+            return state
+        }
+      }
+
+      let { createStore } = Redux;
+
+      // Vi skapar en store som använder redux & vi skickar in en reducer som ska användas
+      let store = createStore(/* FILL THE GAP: reducer */)
+
+      // Vi sparar variabeln valueEl som en referens till vår poäng element.
+      // Vi behöver spara den här variabeln för att kunna ändra vår poäng i vår html.
+      let valueEl = document.getElementById('value')
+
+      // En render funktion som kommer att ta senaste state value från redux och skriva ut den i vår valueEl element.
+      function render() {
+        valueEl.innerHTML = store.getState().toString()
+      }
+
+      // Vi triggar manuellt igång en render funktion för att få vår poäng att uppdateras när sidan laddas.
+      render()
+
+      // Varje gång vår store uppdateras kommer vi att köra vår render funktion igen för att skriva ut nya värdet.
+      store.subscribe(render)
+
+      // Dessa är våra "actions" som hänvisas i våra buttons i html koden.
+      // Vi använder store.dispatch för att skicka in en action som ska göras.
+      const increment = () => store.dispatch(/* FILL THE GAP: vilken action type ska kallas?*/)
+      const decrement = () => store.dispatch(/* FILL THE GAP: vilken action type ska kallas?*/)
+    </script>
+  </body>
+</html>
