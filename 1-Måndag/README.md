@@ -19,6 +19,6 @@ Läs mer om subscribe funktionen här:
 [Subscribe listener](https://redux.js.org/api/store#subscribelistener)
 
 
-På den här utmaningen kommer du att fylla i luckorna för att få en komplett fungerande app i koden
+I den här utmaningen kommer du att fylla i luckorna för att få en komplett fungerande app i koden
 
 TIPS: Ctrl + f och sök "FILL THE GAPS" för att se vad som behövs läggas till.

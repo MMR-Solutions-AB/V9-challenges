@@ -11,6 +11,6 @@ från getSauceFromUrl till redux tillsammans med thunk för att invänta datan a
 
 Värdet ska läggas in i ```#sauce``` elementet.
 
-På den här utmaningen kommer du att fylla i luckorna för att få en komplett fungerande app i koden
+I den här utmaningen kommer du att fylla i luckorna för att få en komplett fungerande app i koden
 
 TIPS: Ctrl + f och sök "FILL THE GAPS" för att se vad som behövs läggas till.
